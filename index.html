@@ -1,90 +1,63 @@
-/*
- * TUGAS SESI 10: Factory Constructors
- * Nama  : Serlin Selviana Giay
- * NIM   : 251420030
- * Kelas : SI2A
- * * --- LINK DOKUMENTASI & PROYEK ---
- * Gist Source Code : https://gist.github.com/5c0e154dd50af4a9ac856908061291bc
- * GitHub Pages     : https://selviana03.github.io/Factory-Constructors/
- * * --- MATERI PEMBELAJARAN ---
- * Factory Pattern adalah pola desain untuk mengabstraksi pembuatan objek:
- * 1. Factory Method: Membuat objek tanpa mengekspos logika ke client.
- * 2. Caching: Menghemat memori dengan menggunakan kembali instance yang ada.
- * 3. Pooling: Mengelola sekumpulan objek agar efisien.
- * 4. Subclass Selection: Pemilihan objek dinamis berdasarkan input.
- */
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Factory Pattern - Serlin Selviana Giay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .info {
+            background: #e7f3fe;
+            padding: 15px;
+            border-left: 5px solid #2196F3;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
 
-// --- Latihan 1: ConnectionFactory ---
-class Connection {
-  final String id;
-  Connection(this.id);
-  void execute(String query) => print("Koneksi $id mengeksekusi: $query");
-}
+    <div class="container">
+        <h1>Tugas Sesi 10: Factory Constructors</h1>
+        
+        <div class="info">
+            <p><strong>Nama:</strong> Serlin Selviana Giay</p>
+            <p><strong>NIM:</strong> 251420030</p>
+            <p><strong>Kelas:</strong> SI2A</p>
+        </div>
 
-class ConnectionFactory {
-  static final List<Connection> _pool = [Connection("DB-1"), Connection("DB-2")];
-  static int _index = 0;
-  static Connection getConnection() {
-    final conn = _pool[_index];
-    _index = (_index + 1) % _pool.length;
-    return conn;
-  }
-}
+        <p>Silakan klik tautan di bawah untuk melihat source code dan menjalankan program:</p>
+        
+        <ul>
+            <li>
+                <a href="https://gist.github.com/5c0e154dd50af4a9ac856908061291bc" target="_blank">
+                    GitHub Gist (Source Code)
+                </a>
+            </li>
+            <li>
+                <a href="https://dartpad.dev/?id=5c0e154dd50af4a9ac856908061291bc" target="_blank">
+                    DartPad (Run Live)
+                </a>
+            </li>
+        </ul>
+    </div>
 
-// --- Latihan 2: NotificationFactory ---
-abstract class Notification {
-  void send(String message);
-}
-class EmailNotification implements Notification {
-  @override
-  void send(String msg) => print("Mengirim via Email: $msg");
-}
-class PushNotification implements Notification {
-  @override
-  void send(String msg) => print("Mengirim via Push: $msg");
-}
-
-class NotificationFactory {
-  static Notification create(String platform) {
-    if (platform == 'email') return EmailNotification();
-    if (platform == 'push') return PushNotification();
-    throw Exception("Platform tidak dikenal");
-  }
-}
-
-// --- Latihan 3: ShapeFactory ---
-class Shape {
-  final String type;
-  Shape(this.type);
-}
-class ShapeFactory {
-  static final Map<String, Shape> _cache = {};
-  static Shape getShape(String type) => _cache.putIfAbsent(type, () => Shape(type));
-}
-
-// --- Challenge: AnimalFactory ---
-abstract class Animal { void speak(); }
-class Dog implements Animal { @override void speak() => print("Woof!"); }
-class Cat implements Animal { @override void speak() => print("Meow!"); }
-
-class AnimalFactory {
-  static final Map<String, Animal> _cache = {};
-  static Animal createAnimal(String type) {
-    if (type.isEmpty) throw ArgumentError("Tipe tidak boleh kosong");
-    return _cache.putIfAbsent(type.toLowerCase(), () {
-      switch (type.toLowerCase()) {
-        case 'dog': return Dog();
-        case 'cat': return Cat();
-        default: throw Exception("Hewan tidak dikenal");
-      }
-    });
-  }
-}
-
-void main() {
-  print("Hasil Tugas Serlin Selviana Giay (251420030)\n");
-  ConnectionFactory.getConnection().execute("SELECT * FROM users");
-  NotificationFactory.create('email').send('Halo!');
-  print("Shape Cache sama: ${identical(ShapeFactory.getShape('lingkaran'), ShapeFactory.getShape('lingkaran'))}");
-  AnimalFactory.createAnimal('dog').speak();
-}
+</body>
+</html>
